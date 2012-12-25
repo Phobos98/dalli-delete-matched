@@ -5,4 +5,6 @@ Just install the gem and you a free to go
 
 In your Gemfile, make sure you have this gem:
 
-  gem 'dalli-delete-matched', :git => "git://github.com/phobos981/dalli-delete-matched.git"
+  gem 'dalli-delete-matched'
+
+You don't need to include gem dalli to your Gemfile, as this gem includes it
