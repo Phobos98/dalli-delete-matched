@@ -5,10 +5,10 @@ $:.push File.expand_path("../lib", __FILE__)
 Gem::Specification.new do |s|
   s.name        = "dalli-delete-matched"
   s.platform    = Gem::Platform::RUBY
-  s.version     = "1.0.1"
+  s.version     = "1.0.2"
   s.author      = "Kourza Ivan a.k.a. Phobos98"
   s.email       = "phobos98@phobos98.net"
-  s.homepage    = "https://github.com/phobos981/dalli-delete-matched"
+  s.homepage    = "https://github.com/Phobos98/dalli-delete-matched"
   s.summary     = "Rails Dalli Store extension for delete_matched support"
   s.description = %{Provides delete_matched for Dalli store in Rails 3}
 
