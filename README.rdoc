@@ -1,7 +1,7 @@
 = DalliDeleteMatched
 
 This gem is a simple implementation of delete_matched method for dalli store with memcached.
-Just install the gem and you a free to go
+Just install the gem and you are free to go
 
 In your Gemfile, make sure you have this gem:
 
