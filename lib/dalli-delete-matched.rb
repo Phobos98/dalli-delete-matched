@@ -1,3 +1,6 @@
+require 'active_support/cache/dalli_store'
+require 'active_support/core_ext/module/aliasing'
+
 ActiveSupport::Cache::DalliStore.class_eval do
     
   MEMCACHED_KEYS = "memcached_keys"
