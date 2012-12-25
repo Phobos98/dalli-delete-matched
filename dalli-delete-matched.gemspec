@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = "0.9.0"
   s.authors     = ["Kourza Ivan a.k.a. Phobos98"]
   s.email       = ["phobos98@phobos98.net"]
-  s.homepage    = "TODO"
+  s.homepage    = "https://github.com/phobos981/dalli-delete-matched"
   s.summary     = ""
   s.description = ""
 
