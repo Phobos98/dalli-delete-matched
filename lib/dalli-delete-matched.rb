@@ -8,8 +8,10 @@ ActiveSupport::Cache::DalliStore.class_eval do
   alias_method :old_write_entry, :write_entry
   def write_entry(key, entry, options)
     keys = get_cache_keys
-    keys << key
-    return false unless old_write_entry(CACHE_KEYS, keys.to_yaml, {})
+    unless keys.include?(key)
+      keys << key
+      return false unless old_write_entry(CACHE_KEYS, keys.to_yaml, {})
+    end
     old_write_entry(key, entry, options)
   end
 
@@ -18,8 +20,10 @@ ActiveSupport::Cache::DalliStore.class_eval do
     ret = old_delete_entry(key, options)
     return false unless ret
     keys = get_cache_keys
-    keys -= [ key ]
-    old_write_entry(CACHE_KEYS, keys.to_yaml, {})
+    if keys.include?(key)
+      keys -= [ key ]
+      old_write_entry(CACHE_KEYS, keys.to_yaml, {})
+    end
     ret
   end
 
