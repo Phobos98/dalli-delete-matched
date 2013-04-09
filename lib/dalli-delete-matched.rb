@@ -10,6 +10,7 @@ ActiveSupport::Cache::DalliStore.class_eval do
     keys = get_cache_keys
     unless keys.include?(key)
       keys << key
+      delete CACHE_KEYS
       return false unless old_write_entry(CACHE_KEYS, keys.to_yaml, {})
     end
     old_write_entry(key, entry, options)
@@ -22,6 +23,7 @@ ActiveSupport::Cache::DalliStore.class_eval do
     keys = get_cache_keys
     if keys.include?(key)
       keys -= [ key ]
+      delete CACHE_KEYS
       old_write_entry(CACHE_KEYS, keys.to_yaml, {})
     end
     ret
