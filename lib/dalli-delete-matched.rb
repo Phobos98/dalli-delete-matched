@@ -2,31 +2,27 @@ require 'active_support/cache/dalli_store'
 require 'active_support/core_ext/module/aliasing'
 
 ActiveSupport::Cache::DalliStore.class_eval do
-    
+
   CACHE_KEYS = "CacheKeys"
-  
+
   alias_method :old_write_entry, :write_entry
   def write_entry(key, entry, options)
     keys = get_cache_keys
-    unless keys.include?(key)
-      keys << key
-      return false unless old_write_entry(CACHE_KEYS, keys.to_yaml, {})
-    end
+    keys << key
+    return false unless old_write_entry(CACHE_KEYS, keys.to_yaml, {})
     old_write_entry(key, entry, options)
   end
-  
+
   alias_method :old_delete_entry, :delete_entry
   def delete_entry(key, options)
     ret = old_delete_entry(key, options)
     return false unless ret
     keys = get_cache_keys
-    if keys.include?(key)
-      keys -= [ key ]
-      old_write_entry(CACHE_KEYS, keys.to_yaml, {})
-    end
+    keys -= [ key ]
+    old_write_entry(CACHE_KEYS, keys.to_yaml, {})
     ret
   end
-  
+
   def delete_matched(matcher, options = nil)
     ret = true
     deleted_keys = []
@@ -50,5 +46,5 @@ private
       []
     end
   end
-  
+
 end
