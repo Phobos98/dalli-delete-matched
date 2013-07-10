@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = Dir['[A-Z]*']
   s.test_files = Dir.glob("test/**/*")
   s.add_development_dependency(%q<minitest>, [">= 5.0.0"])
+  s.add_development_dependency(%q<mocha>, [">= 0"])
 
   s.add_dependency "dalli"
 end
