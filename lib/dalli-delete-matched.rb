@@ -11,7 +11,7 @@ ActiveSupport::Cache::DalliStore.class_eval do
     unless keys.include?(key)
       keys << key
       delete CACHE_KEYS
-      return false unless old_write_entry(CACHE_KEYS, keys.to_yaml, {})
+      return false unless write_cache_keys(keys, options[:connection])
     end
     old_write_entry(key, entry, options)
   end
@@ -24,12 +24,12 @@ ActiveSupport::Cache::DalliStore.class_eval do
     if keys.include?(key)
       keys -= [ key ]
       delete CACHE_KEYS
-      old_write_entry(CACHE_KEYS, keys.to_yaml, {})
+      with { |c| write_cache_keys(keys, c) }
     end
     ret
   end
 
-  def delete_matched(matcher, options = nil)
+  def delete_matched(matcher, options = {})
     ret = true
     deleted_keys = []
     keys = get_cache_keys
@@ -40,11 +40,18 @@ ActiveSupport::Cache::DalliStore.class_eval do
     end
     len = keys.length
     keys -= deleted_keys
-    old_write_entry(CACHE_KEYS, keys.to_yaml, {}) if keys.length < len
+    if keys.length < len
+      with { |c| write_cache_keys(keys, c) }
+    end
     ret
   end
 
 private
+
+  def write_cache_keys(keys, connection)
+    old_write_entry(CACHE_KEYS, keys.to_yaml, { :connection => connection })
+  end
+
   def get_cache_keys
     begin
       YAML.load read(CACHE_KEYS)

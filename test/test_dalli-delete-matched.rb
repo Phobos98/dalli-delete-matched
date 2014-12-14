@@ -13,7 +13,9 @@ describe "DalliDeleteMatched" do
         dc.flush
 
         store = ActiveSupport::Cache::DalliStore.new('localhost:19122')
-        store.send :write_entry, "test", "content", {}
+        store.with do |connection|
+          store.send :write_entry, "test", "content", { :connection => connection }
+        end
 
         assert_equal store.send(:get_cache_keys), ["test"]
       end
